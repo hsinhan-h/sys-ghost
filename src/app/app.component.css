@@ -46,13 +46,6 @@
   -webkit-backdrop-filter: blur(18px);
 }
 
-/* .monitor-panel {
-    min-height: 0;
-    height: calc(100vh - 0.2rem);
-    padding: 0.18rem 0.28rem;
-    border-radius: 12px;
-  } */
-
 .drag-zone {
   width: 18px;
   min-width: 18px;

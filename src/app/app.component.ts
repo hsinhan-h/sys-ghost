@@ -19,9 +19,9 @@ export class AppComponent {
     map((stats) => ({
       ...stats,
       memoryUsedGb: stats.memoryUsed / 1024 / 1024 / 1024,
-      memoryTotalGb: stats.memoryTotal / 1024 / 1024 / 1024,
       memoryUsagePercent:
         stats.memoryTotal > 0 ? (stats.memoryUsed / stats.memoryTotal) * 100 : 0,
+      networkDownloadMbps: stats.networkDownloadBps / 1024 / 1024,
     })),
   );
 

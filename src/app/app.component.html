@@ -26,13 +26,13 @@
         </article>
 
         <article class="stat-card">
-          <span class="label">Memory Total</span>
-          <strong>{{ stats.memoryTotalGb | number: "1.2-2" }} GB</strong>
+          <span class="label">Memory Usage</span>
+          <strong>{{ stats.memoryUsagePercent | number: "1.1-1" }}%</strong>
         </article>
 
         <article class="stat-card">
-          <span class="label">Memory Usage</span>
-          <strong>{{ stats.memoryUsagePercent | number: "1.1-1" }}%</strong>
+          <span class="label">Net Download</span>
+          <strong>{{ stats.networkDownloadMbps | number: "1.2-2" }} MB/s</strong>
         </article>
       </div>
     </div>
