@@ -1,4 +1,9 @@
 <main class="dashboard">
+  <div class="drag-bar panel" data-tauri-drag-region (mousedown)="startDrag($event)">
+    <div class="drag-handle" data-tauri-drag-region></div>
+    <span class="drag-title" data-tauri-drag-region>SysGhost Monitor</span>
+  </div>
+
   <header class="hero">
     <div>
       <p class="eyebrow">System Monitor</p>

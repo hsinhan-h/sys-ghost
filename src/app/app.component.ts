@@ -1,6 +1,7 @@
 import { AsyncPipe, DecimalPipe, NgIf } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { map } from "rxjs";
 import { SystemMonitorService } from "./system-monitor.service";
 
@@ -11,8 +12,8 @@ import { SystemMonitorService } from "./system-monitor.service";
   styleUrl: "./app.component.css",
 })
 export class AppComponent {
+  private readonly appWindow = getCurrentWindow();
   private readonly systemMonitorService = inject(SystemMonitorService);
-
   readonly systemStats$ = this.systemMonitorService.stats$;
   readonly dashboardStats$ = this.systemStats$.pipe(
     map((stats) => ({
@@ -23,4 +24,12 @@ export class AppComponent {
         stats.memoryTotal > 0 ? (stats.memoryUsed / stats.memoryTotal) * 100 : 0,
     })),
   );
+
+  startDrag(event: MouseEvent): void {
+    if (event.button !== 0) {
+      return;
+    }
+
+    void this.appWindow.startDragging();
+  }
 }

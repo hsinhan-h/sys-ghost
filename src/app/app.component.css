@@ -5,7 +5,7 @@
   font-weight: 400;
 
   color: #0f0f0f;
-  background-color: #f6f6f6;
+  background: transparent;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,14 +15,44 @@
 }
 
 .dashboard {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at top left, rgba(36, 200, 219, 0.28), transparent 38%),
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.24), transparent 42%),
+    transparent;
 }
 
 .hero {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: left;
+}
+
+.drag-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  cursor: move;
+  user-select: none;
+}
+
+.drag-handle {
+  width: 3rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.drag-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.72;
 }
 
 .eyebrow {
@@ -42,14 +72,19 @@
 .panel {
   margin-top: 1rem;
   padding: 1.5rem;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -58,16 +93,17 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  border-radius: 16px;
-  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .accent-cpu {
-  background: rgba(59, 130, 246, 0.12);
+  background: rgba(59, 130, 246, 0.18);
 }
 
 .accent-memory {
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(16, 185, 129, 0.18);
 }
 
 .label {
@@ -81,7 +117,7 @@
   height: 0.6rem;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .meter-fill {
@@ -95,25 +131,81 @@
   text-align: center;
 }
 
+input,
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #0f0f0f;
+  background: rgba(255, 255, 255, 0.65);
+  transition:
+    border-color 0.25s,
+    transform 0.2s ease,
+    background-color 0.2s ease;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: #396cd8;
+  transform: translateY(-1px);
+}
+button:active {
+  border-color: #396cd8;
+  transform: translateY(0);
+  background-color: rgba(232, 232, 232, 0.85);
+}
+
+input,
+button {
+  outline: none;
+}
+
+input {
+  flex: 1 1 240px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
-    background-color: #2f2f2f;
+    background: transparent;
   }
 
   .eyebrow {
     color: #24c8db;
   }
 
+  .drag-handle {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  input,
+  button {
+    color: #ffffff;
+    background: rgba(15, 15, 15, 0.42);
+  }
+
   .panel {
-    background: rgba(15, 15, 15, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(15, 15, 15, 0.42);
   }
 
   .stat-card {
+    border-color: rgba(255, 255, 255, 0.08);
     background: rgba(36, 200, 219, 0.12);
   }
 
   .meter {
     background: rgba(255, 255, 255, 0.12);
+  }
+
+  button:active {
+    background-color: #0f0f0f69;
   }
 }
