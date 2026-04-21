@@ -1,22 +1,26 @@
-import { Component } from "@angular/core";
+import { AsyncPipe, DecimalPipe, NgIf } from "@angular/common";
+import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { invoke } from "@tauri-apps/api/core";
+import { map } from "rxjs";
+import { SystemMonitorService } from "./system-monitor.service";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet],
+  imports: [AsyncPipe, DecimalPipe, NgIf, RouterOutlet],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
 export class AppComponent {
-  greetingMessage = "";
+  private readonly systemMonitorService = inject(SystemMonitorService);
 
-  greet(event: SubmitEvent, name: string): void {
-    event.preventDefault();
-
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    invoke<string>("greet", { name }).then((text) => {
-      this.greetingMessage = text;
-    });
-  }
+  readonly systemStats$ = this.systemMonitorService.stats$;
+  readonly dashboardStats$ = this.systemStats$.pipe(
+    map((stats) => ({
+      ...stats,
+      memoryUsedGb: stats.memoryUsed / 1024 / 1024 / 1024,
+      memoryTotalGb: stats.memoryTotal / 1024 / 1024 / 1024,
+      memoryUsagePercent:
+        stats.memoryTotal > 0 ? (stats.memoryUsed / stats.memoryTotal) * 100 : 0,
+    })),
+  );
 }

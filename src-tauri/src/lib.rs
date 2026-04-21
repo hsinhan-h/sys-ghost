@@ -7,12 +7,6 @@ use std::{
 use sysinfo::{Networks, System, MINIMUM_CPU_UPDATE_INTERVAL};
 use tauri::{Emitter, Manager};
 
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 #[derive(Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct SystemStats {
@@ -133,7 +127,7 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, get_system_stats])
+        .invoke_handler(tauri::generate_handler![get_system_stats])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
