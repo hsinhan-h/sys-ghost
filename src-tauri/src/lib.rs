@@ -1,9 +1,11 @@
 use serde::Serialize;
 use std::{
-    sync::Mutex,
+    sync::{Arc, Mutex},
+    thread,
     time::{Duration, Instant},
 };
 use sysinfo::{Networks, System, MINIMUM_CPU_UPDATE_INTERVAL};
+use tauri::{Emitter, Manager};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -88,7 +90,7 @@ impl SysInfoState {
 }
 
 struct AppState {
-    sysinfo: Mutex<SysInfoState>,
+    sysinfo: Arc<Mutex<SysInfoState>>,
 }
 
 #[tauri::command]
@@ -103,11 +105,34 @@ fn get_system_stats(state: tauri::State<'_, AppState>) -> Result<SystemStats, St
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let sysinfo = Arc::new(Mutex::new(SysInfoState::new()));
+
     tauri::Builder::default()
         .manage(AppState {
-            sysinfo: Mutex::new(SysInfoState::new()),
+            sysinfo: Arc::clone(&sysinfo),
         })
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            let window = app
+                .get_webview_window("main")
+                .expect("main window not found");
+            let sysinfo = Arc::clone(&app.state::<AppState>().sysinfo);
+
+            thread::spawn(move || loop {
+                let stats = match sysinfo.lock() {
+                    Ok(mut sysinfo) => sysinfo.collect_stats(),
+                    Err(_) => break,
+                };
+
+                if window.emit("system-stats", &stats).is_err() {
+                    break;
+                }
+
+                thread::sleep(Duration::from_millis(1000));
+            });
+
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![greet, get_system_stats])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
