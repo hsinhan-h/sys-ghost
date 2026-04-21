@@ -1,49 +1,45 @@
-<main class="dashboard">
-  <div class="drag-bar panel" data-tauri-drag-region (mousedown)="startDrag($event)">
-    <div class="drag-handle" data-tauri-drag-region></div>
-    <span class="drag-title" data-tauri-drag-region>SysGhost Monitor</span>
-  </div>
-
-  <header class="hero">
-    <div>
-      <p class="eyebrow">System Monitor</p>
-      <h1>Live CPU & Memory Dashboard</h1>
-      <p class="subtitle">System stats stream from the Tauri backend every second.</p>
-    </div>
-  </header>
-
-  <section class="panel" *ngIf="dashboardStats$ | async as stats; else loading">
-    <div class="stats-grid">
-      <article class="stat-card accent-cpu">
-        <span class="label">CPU Usage</span>
-        <strong>{{ stats.cpuUsage | number: "1.1-1" }}%</strong>
-        <div class="meter">
-          <div class="meter-fill" [style.width.%]="stats.cpuUsage"></div>
+<main class="monitor-shell">
+  <section class="monitor-panel" *ngIf="dashboardStats$ | async as stats; else loading">
+    <div class="panel-content">
+      <div class="title-row">
+        <div class="drag-zone" data-tauri-drag-region (mousedown)="startDrag($event)">
+          <div class="drag-handle" data-tauri-drag-region></div>
         </div>
-      </article>
+        <h1>HARRIS SYS-GHOST MONITOR</h1>
+      </div>
 
-      <article class="stat-card accent-memory">
-        <span class="label">Memory Used</span>
-        <strong>{{ stats.memoryUsedGb | number: "1.2-2" }} GB</strong>
-        <div class="meter">
-          <div class="meter-fill" [style.width.%]="stats.memoryUsagePercent"></div>
-        </div>
-      </article>
+      <div class="stats-layout">
+        <article class="stat-card">
+          <span class="label">CPU Usage</span>
+          <strong>{{ stats.cpuUsage | number: "1.1-1" }}%</strong>
+          <div class="meter">
+            <div class="meter-fill" [style.width.%]="stats.cpuUsage"></div>
+          </div>
+        </article>
 
-      <article class="stat-card">
-        <span class="label">Memory Total</span>
-        <strong>{{ stats.memoryTotalGb | number: "1.2-2" }} GB</strong>
-      </article>
+        <article class="stat-card">
+          <span class="label">Memory Used</span>
+          <strong>{{ stats.memoryUsedGb | number: "1.2-2" }} GB</strong>
+          <div class="meter">
+            <div class="meter-fill" [style.width.%]="stats.memoryUsagePercent"></div>
+          </div>
+        </article>
 
-      <article class="stat-card">
-        <span class="label">Memory Usage</span>
-        <strong>{{ stats.memoryUsagePercent | number: "1.1-1" }}%</strong>
-      </article>
+        <article class="stat-card">
+          <span class="label">Memory Total</span>
+          <strong>{{ stats.memoryTotalGb | number: "1.2-2" }} GB</strong>
+        </article>
+
+        <article class="stat-card">
+          <span class="label">Memory Usage</span>
+          <strong>{{ stats.memoryUsagePercent | number: "1.1-1" }}%</strong>
+        </article>
+      </div>
     </div>
   </section>
 
   <ng-template #loading>
-    <section class="panel loading-state">
+    <section class="monitor-panel loading-state">
       <p>Waiting for backend stats...</p>
     </section>
   </ng-template>
