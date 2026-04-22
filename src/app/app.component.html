@@ -2,6 +2,9 @@
   <section class="monitor-panel" *ngIf="dashboardStats$ | async as stats; else loading">
     <div class="panel-content">
       <div class="title-row">
+        <button class="close-btn" (click)="closeWindow()">
+          <span class="close-icon"></span>
+        </button>
         <div class="drag-zone" data-tauri-drag-region (mousedown)="startDrag($event)">
           <div class="drag-handle" data-tauri-drag-region></div>
         </div>

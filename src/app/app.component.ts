@@ -32,4 +32,8 @@ export class AppComponent {
 
     void this.appWindow.startDragging();
   }
+
+  closeWindow(): void {
+    void this.appWindow.close();
+  }
 }
