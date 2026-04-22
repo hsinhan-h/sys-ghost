@@ -36,4 +36,8 @@ export class AppComponent {
   closeWindow(): void {
     void this.appWindow.close();
   }
+
+  minimizeWindow(): void {
+    void this.appWindow.minimize();
+  }
 }
