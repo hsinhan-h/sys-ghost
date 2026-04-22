@@ -1,13 +1,10 @@
 <main class="monitor-shell">
   <section class="monitor-panel" *ngIf="dashboardStats$ | async as stats; else loading">
     <div class="panel-content">
-      <div class="title-row">
+      <div class="title-row" data-tauri-drag-region (mousedown)="startDrag($event)">
         <button class="close-btn" (click)="closeWindow()">
           <span class="close-icon"></span>
         </button>
-        <div class="drag-zone" data-tauri-drag-region (mousedown)="startDrag($event)">
-          <div class="drag-handle" data-tauri-drag-region></div>
-        </div>
         <h1>HARRIS SYS-GHOST MONITOR</h1>
       </div>
 
